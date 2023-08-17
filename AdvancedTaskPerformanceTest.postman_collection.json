@@ -1,0 +1,116 @@
+{
+	"info": {
+		"_postman_id": "5ff23639-3982-47cb-9ce9-73e8afd9fc22",
+		"name": "AdvancedTaskPerformanceTest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24193385"
+	},
+	"item": [
+		{
+			"name": "Sign In to Mars",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json()\r",
+							"var user_token = jsonData.token.token\r",
+							"pm.environment.set(\"env_token\", \"Bearer\"+\" \"+user_token)\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Success Message\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.isSuccess).to.eql(true);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"rememberMe\": false,\r\n    \"email\": \"eddie510@gmail.com\",\r\n    \"password\": \"eddie123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:60968/authentication/authentication/signin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "60968",
+					"path": [
+						"authentication",
+						"authentication",
+						"signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Skills",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Success Message\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.success).to.eql(true);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{env_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"PersonSkillId\": 0,\r\n  \"Skill\": \"{{skill}}\",\r\n  \"ExperienceLevel\": \"{{experienceLevel}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:60190/profile/profile/addSkill",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "60190",
+					"path": [
+						"profile",
+						"profile",
+						"addSkill"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
